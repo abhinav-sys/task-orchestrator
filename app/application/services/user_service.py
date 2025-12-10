@@ -45,3 +45,4 @@ class UserService:
         """Delete user."""
         return await self.user_repository.delete(user_id)
 
+

@@ -44,3 +44,4 @@ class RedisClient:
             await cls._cache_instance.close()
             cls._cache_instance = None
 
+

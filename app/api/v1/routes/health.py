@@ -25,3 +25,4 @@ async def readiness_check():
     # TODO: Add database and Redis connectivity checks
     return {"status": "ready"}
 
+

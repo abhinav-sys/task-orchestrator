@@ -48,3 +48,4 @@ async def _process_email_task(task_id: UUID) -> None:
         )
         raise
 
+

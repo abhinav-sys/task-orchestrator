@@ -31,3 +31,4 @@ class User(BaseModel):
         """String representation."""
         return f"<User {self.email}>"
 
+

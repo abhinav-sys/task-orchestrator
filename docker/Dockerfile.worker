@@ -22,3 +22,4 @@ COPY . .
 # Run Celery worker
 CMD ["celery", "-A", "app.infrastructure.queue.celery_app", "worker", "--loglevel=info"]
 
+

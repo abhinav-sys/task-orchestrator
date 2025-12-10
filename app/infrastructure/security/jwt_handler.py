@@ -50,3 +50,4 @@ class JWTHandler:
             token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm]
         )
 
+

@@ -21,3 +21,4 @@ def init_database() -> None:
 if __name__ == "__main__":
     init_database()
 
+

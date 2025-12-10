@@ -33,3 +33,4 @@ class IUserRepository:
         """Delete user."""
         raise NotImplementedError
 
+

@@ -68,3 +68,4 @@ worker:
 flower:
 	celery -A app.infrastructure.queue.celery_app flower
 
+

@@ -111,3 +111,4 @@ class UserRepository(IUserRepository):
             updated_at=user_model.updated_at,
         )
 
+

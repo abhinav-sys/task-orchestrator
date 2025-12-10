@@ -42,3 +42,4 @@ class ITaskRepository:
         """Count tasks by user ID."""
         raise NotImplementedError
 
+

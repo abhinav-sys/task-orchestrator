@@ -30,3 +30,4 @@ class TaskType(str, Enum):
     API_INTEGRATION = "api_integration"
     REPORT_GENERATION = "report_generation"
 
+

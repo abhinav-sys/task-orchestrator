@@ -18,3 +18,4 @@ class PasswordHandler:
         """Verify a password against a hash."""
         return pwd_context.verify(plain_password, hashed_password)
 
+

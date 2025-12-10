@@ -69,3 +69,4 @@ def downgrade() -> None:
     op.execute('DROP TYPE IF EXISTS task_status')
     op.execute('DROP TYPE IF EXISTS task_priority')
 
+

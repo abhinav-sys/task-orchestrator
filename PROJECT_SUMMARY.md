@@ -239,3 +239,4 @@ docker-compose exec api python scripts/seed_data.py
 
 **Built with ❤️ using Python, FastAPI, and modern best practices**
 
+

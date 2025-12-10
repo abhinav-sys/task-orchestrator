@@ -26,3 +26,4 @@ def test_verify_password() -> None:
     assert handler.verify_password(password, hashed) is True
     assert handler.verify_password("wrong_password", hashed) is False
 
+

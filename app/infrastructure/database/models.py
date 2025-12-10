@@ -73,3 +73,4 @@ class TaskModel(Base):
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
     )
 
+

@@ -130,3 +130,4 @@ class AuthService:
         }
         return jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
 
+
