@@ -1,24 +1,33 @@
-# 🚀 Task Orchestrator - Advanced Python Project
+# 🚀 Task Orchestrator
 
-A production-grade distributed task processing and API platform built with Python, demonstrating enterprise-level architecture, async programming, and modern best practices.
+A production-grade distributed task processing and API platform built with Python, FastAPI, and Clean Architecture. This project demonstrates enterprise-level software development practices, async programming, and modern Python best practices.
+
+## 👨‍💻 Developer
+
+**Abhinav Soni**
+
+- 🔗 [LinkedIn Profile](https://www.linkedin.com/in/abhinav-soni-9475661b5/)
+- 💼 [Naukri Profile](https://www.naukri.com/mnjuser/profile)
+- 📧 Open to opportunities in Python Development, Backend Engineering, and Full-Stack Development
+
+---
 
 ## 🎯 Features
 
 - **Distributed Task Processing**: Celery-based background task execution with priority queues
-- **RESTful API**: FastAPI with JWT authentication, rate limiting, and WebSocket support
-- **Real-time Updates**: WebSocket connections for live task status updates
-- **Caching Layer**: Redis for caching, session management, and pub/sub
+- **RESTful API**: FastAPI with JWT authentication, rate limiting, and comprehensive error handling
+- **Caching Layer**: Redis for caching, session management, and message queuing
 - **Database**: PostgreSQL with async SQLAlchemy 2.0 and Alembic migrations
-- **Production Ready**: Docker, CI/CD, comprehensive testing, logging, and monitoring
+- **Production Ready**: Docker containerization, CI/CD pipeline, comprehensive testing, structured logging
 
 ## 🏗️ Architecture
 
-This project follows **Clean Architecture** principles with three main layers:
+This project follows **Clean Architecture** principles with clear separation of concerns:
 
 ```
 ┌─────────────────────────────────────┐
 │         API Layer (FastAPI)         │
-│  Routes, Schemas, Middleware, WS    │
+│  Routes, Schemas, Middleware         │
 └─────────────────────────────────────┘
               ↓
 ┌─────────────────────────────────────┐
@@ -35,15 +44,15 @@ This project follows **Clean Architecture** principles with three main layers:
 ## 🛠️ Tech Stack
 
 - **Framework**: FastAPI 0.104+
-- **Database**: PostgreSQL 15+
+- **Database**: PostgreSQL 15+ with SQLAlchemy 2.0 (async)
 - **Cache/Queue**: Redis 7+
 - **Task Queue**: Celery 5.3+
-- **ORM**: SQLAlchemy 2.0 (async)
 - **Migrations**: Alembic
 - **Validation**: Pydantic v2
 - **Testing**: Pytest with async support
 - **Code Quality**: Black, Ruff, MyPy
 - **Containerization**: Docker & Docker Compose
+- **CI/CD**: GitHub Actions
 
 ## 📋 Prerequisites
 
@@ -53,58 +62,27 @@ This project follows **Clean Architecture** principles with three main layers:
 
 ## 🚀 Quick Start
 
-### Option 1: Docker (Recommended)
+### Docker (Recommended)
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/abhinav-sys/task-orchestrator.git
 cd task-orchestrator
 
 # Copy environment file
-cp .env.example .env
+cp env.example .env
 
 # Start all services
 docker-compose up --build
 
 # Run migrations
 docker-compose exec api alembic upgrade head
-
-# Seed database (optional)
-docker-compose exec api python scripts/seed_data.py
 ```
 
 The API will be available at:
 - **API**: http://localhost:8000
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/api/v1/health
-
-### Option 2: Local Development
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your configuration
-
-# Start PostgreSQL and Redis (via Docker or locally)
-docker-compose up -d postgres redis
-
-# Run migrations
-alembic upgrade head
-
-# Start the API server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# In another terminal, start Celery worker
-celery -A app.infrastructure.queue.celery_app worker --loglevel=info
-```
 
 ## 📁 Project Structure
 
@@ -133,11 +111,6 @@ pytest
 
 # With coverage
 pytest --cov=app --cov-report=html
-
-# Run specific test type
-pytest tests/unit/
-pytest tests/integration/
-pytest tests/e2e/
 
 # Run with Docker
 docker-compose exec api pytest
@@ -171,28 +144,28 @@ Once the server is running, visit:
 2. **Login**: `POST /api/v1/auth/login` (returns JWT token)
 3. **Use token**: Add `Authorization: Bearer <token>` header to protected routes
 
-## 📝 Example Usage
+## 📝 API Endpoints
 
-### Create a Task
+### Authentication
+- `POST /api/v1/auth/signup` - Create new user
+- `POST /api/v1/auth/login` - Login and get JWT token
+- `GET /api/v1/auth/me` - Get current user
 
-```bash
-curl -X POST "http://localhost:8000/api/v1/tasks" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Process Data",
-    "task_type": "data_processing",
-    "priority": "high",
-    "parameters": {"file_path": "/data/file.csv"}
-  }'
-```
+### Tasks
+- `POST /api/v1/tasks` - Create new task
+- `GET /api/v1/tasks` - List tasks (paginated)
+- `GET /api/v1/tasks/{id}` - Get task details
+- `PUT /api/v1/tasks/{id}` - Update task
+- `POST /api/v1/tasks/{id}/cancel` - Cancel task
+- `DELETE /api/v1/tasks/{id}` - Delete task
 
-### Check Task Status
+### Users
+- `GET /api/v1/users/me` - Get profile
+- `PUT /api/v1/users/me` - Update profile
 
-```bash
-curl "http://localhost:8000/api/v1/tasks/{task_id}" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+### Health
+- `GET /api/v1/health` - Health check
+- `GET /api/v1/health/ready` - Readiness check
 
 ## 🐳 Docker Services
 
@@ -205,59 +178,40 @@ curl "http://localhost:8000/api/v1/tasks/{task_id}" \
 
 GitHub Actions workflows:
 - **CI**: Run tests, linting, type checking on every push
-- **CD**: Deploy to staging/production (configure as needed)
+- Automated code quality checks
 
-## 📊 Monitoring
+## 📊 Key Highlights
 
-- Health checks: `/api/v1/health` and `/api/v1/ready`
-- Structured logging with correlation IDs
-- Ready for Prometheus metrics integration
+- ✅ Clean Architecture implementation
+- ✅ Full async/await programming
+- ✅ Comprehensive type hints (MyPy strict mode)
+- ✅ Production-ready error handling and logging
+- ✅ Docker containerization
+- ✅ Database migrations with Alembic
+- ✅ JWT-based authentication
+- ✅ Rate limiting and security best practices
 
-## 🤝 Contributing
+## 🎓 What This Project Demonstrates
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and quality checks
-5. Submit a pull request
+- **Clean Architecture**: Separation of concerns, dependency inversion
+- **Async Programming**: High-performance async operations
+- **Type Safety**: Full type coverage with MyPy
+- **Design Patterns**: Repository, Factory, Strategy patterns
+- **Production Best Practices**: Error handling, logging, monitoring
+- **DevOps**: Docker, CI/CD, containerization
 
 ## 📄 License
 
 MIT License
 
-## 🎓 Learning Resources
+## 🤝 Contributing
 
-This project demonstrates:
-- Clean Architecture patterns
-- Async/await programming
-- Type hints and type safety
-- Design patterns (Repository, Factory, Strategy)
-- Production best practices
-- Docker containerization
-- CI/CD pipelines
-
-## 🆘 Troubleshooting
-
-### Database Connection Issues
-- Ensure PostgreSQL is running
-- Check DATABASE_URL in .env
-- Run migrations: `alembic upgrade head`
-
-### Redis Connection Issues
-- Verify Redis container is running
-- Check REDIS_URL in .env
-
-### Import Errors
-- Ensure you're in the project root
-- Activate virtual environment
-- Install dependencies: `pip install -r requirements.txt`
-
-## 📞 Support
-
-For issues and questions, please open an issue on GitHub.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-**Built with ❤️ using Python, FastAPI, and modern best practices**
+**Built with ❤️ by [Abhinav Soni](https://www.linkedin.com/in/abhinav-soni-9475661b5/)**
 
-
+**Connect with me:**
+- 🔗 [LinkedIn](https://www.linkedin.com/in/abhinav-soni-9475661b5/)
+- 💼 [Naukri](https://www.naukri.com/mnjuser/profile)
